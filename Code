@@ -1,0 +1,94 @@
+import tkinter as tk
+from tkinter import ttk
+
+root = tk.Tk()
+root.geometry("900x600")
+root.resizable(False, False)
+root.configure(bg="black")
+root.title("Retirement Calculator")
+
+# Create a frame for the border
+border_frame = ttk.Frame(root, padding=10)
+border_frame.pack(padx=10, pady=10)
+
+# Create a separator as the top border
+top_border = ttk.Separator(border_frame, orient=tk.HORIZONTAL)
+top_border.pack(fill=tk.X, pady=5)
+
+# Create widgets inside the border frame
+title_label_header = tk.Label(border_frame, text="Retirement Calculator", font=("Montserrat", 48))
+title_label_header.pack()
+
+description_label = tk.Label(border_frame, text="The assistance you need to achieve your financial goals", font=("Open Sans", 20))
+description_label.pack(pady=10)
+
+# Create a separator as the bottom border
+bottom_border = ttk.Separator(border_frame, orient=tk.HORIZONTAL)
+bottom_border.pack(fill=tk.X, pady=5)
+
+# Row 1: 'm' and 'money'
+m_frame = ttk.Frame(border_frame, padding=(0, 10))
+m_frame.pack(anchor=tk.W)
+
+m_label = tk.Label(m_frame, text="Current Retirement Savings:", font=("Open Sans", 20))
+m_label.pack(side=tk.LEFT)
+
+money = tk.Entry(m_frame)
+money.pack(side=tk.LEFT, padx=10)
+
+# Row 2: 'c' and 'cost'
+c_frame = ttk.Frame(border_frame, padding=(0, 10))
+c_frame.pack(anchor=tk.W)
+
+c_label = tk.Label(c_frame, text="Yearly Living Cost:", font=("Open Sans", 20))
+c_label.pack(side=tk.LEFT)
+
+cost = tk.Entry(c_frame)
+cost.pack(side=tk.LEFT, padx=10)
+
+# Row 3: 'y' and 'years'
+y_frame = ttk.Frame(border_frame, padding=(0, 10))
+y_frame.pack(anchor=tk.W)
+
+y_label = tk.Label(y_frame, text="Number of Years you plan on working:", font=("Open Sans", 20))
+y_label.pack(side=tk.LEFT)
+
+years = tk.Entry(y_frame)
+years.pack(side=tk.LEFT, padx=10)
+
+# Row 4: 'p' and 'passive'
+p_frame = ttk.Frame(border_frame, padding=(0, 10))
+p_frame.pack(anchor=tk.W)
+
+p_label = tk.Label(p_frame, text="Continued Income After Retirement:", font=("Open Sans", 20))
+p_label.pack(side=tk.LEFT)
+
+passive = tk.Entry(p_frame)
+passive.pack(side=tk.LEFT, padx=10)
+
+
+def calculations():
+    mon = int(money.get())
+    co = int(cost.get())
+    ye = int(years.get())
+    passives = int(passive.get())
+    cos = co - passives
+    retirement_away = abs((40 - (mon / cos)) * cos)
+    per_year = abs(retirement_away / ye)
+
+    if mon / 40 >= co:
+        label_text = "Happy Retirement"
+    else:
+        label_text = f"You need to save {retirement_away} or {per_year} per year"
+
+    label = tk.Label(root, text=label_text, font=("Times", 20), bg="white")
+    label.pack()
+
+    labels = tk.Label(root, font=("Times", 20), bg="white")
+    labels.pack()
+
+
+button = tk.Button(root, text="Click to see result", font=("Times", 20), command=calculations, fg="green", bg="black")
+button.pack()
+
+root.mainloop()
